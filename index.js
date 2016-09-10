@@ -1,6 +1,17 @@
-var http = require('http');
+var express = require('express');
 
-http.createServer(
+var app = express();
+
+app.get('/', function(req, res){
+    //res.send('Hello World');
+    res.json({message: 'Hello there!!!'});
+});
+
+var server = app.listen(3000, function(){
+    console.log('Server running at http://127.0.0.1:3000/');
+});
+
+/*http.createServer(
     function(req, res){
         res.writeHead(200, {
             'Content-Type': 'text/plain'
@@ -8,4 +19,5 @@ http.createServer(
         res.end('Hello World\n');
 }).listen(3000, '127.0.0.1');
 
-console.log('Server running at http://127.0.0.1:3000/');
+console.log('Server running at http://127.0.0.1:3000/');*/
+
