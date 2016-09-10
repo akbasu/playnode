@@ -1,0 +1,26 @@
+{
+  "name": "AB-PlayNode",
+  "version": "0.0.0",
+  "description": "Anindya's node playground",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akbasu/playnode.git"
+  },
+  "keywords": [
+    "node",
+    "express"
+  ],
+  "author": "Anindya Basu",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/akbasu/playnode/issues"
+  },
+  "homepage": "https://github.com/akbasu/playnode",
+  "dependencies": {
+    "express": "~4.14.0"
+  }
+}
