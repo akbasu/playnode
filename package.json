@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/akbasu/playnode",
   "dependencies": {
-    "express": "~4.14.0"
+    "express": "~4.14.0",
+    "lodash": "~4.15.0",
+    "body-parser": "~1.15.2"
   }
 }
