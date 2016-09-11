@@ -30,31 +30,76 @@ module.exports = function(app){
         });        
     });
 
-    /*app.get('/cats/:name', function(req, res){
-        res.send(
-            _.find(_cats, {name: req.params.name})
-        );
-    });*/
+    app.get('/cats/:name', function(req, res){
+        var query  = Cat.where({ name: req.params.name });
+        query.findOne(function (err, cat) {
+            if (err) {
+                console.log(err);
+                res.statusCode = 500;
+                res.json({info: 'error during finding cats', error: err});
+            }
+            if (cat) {
+                res.statusCode = 200;
+                res.json({info: 'found successfully', data: cat});
+            }
+            else{
+                res.statusCode = 404;
+                res.json({info: 'could not find cat having name: ' + req.params.name});
+            }
+        });        
+    });
 
     /* Update */
-    /*app.put('/cats/:name', function(req, res){
-        var index = _.findIndex(_cats, {name: req.params.name});
-        
-        if(index >= 0){
-            _.merge(_cats[index], req.body);
-            res.statusCode = 200;
-            res.json({info: 'cat updated successfully'});
-        }else{
-            res.statusCode = 400;
-            res.json({info: 'no matching cat found'});
-        }
-    });*/
+    app.put('/cats/:name', function(req, res){
+        var query  = Cat.where({ name: req.params.name });
+        query.findOne(function(err, cat){
+            if(err){
+                console.log(err);
+                res.statusCode = 500;
+                res.json({info: 'error during finding cats', error: err});
+            }
+            if(cat){
+                _.merge(cat, req.body);
+                cat.save(function(err){
+                    if(err){
+                        res.statusCode = 500;
+                        res.json({info: 'error during cat update', error: err});
+                    }else{
+                        res.statusCode = 200;
+                        res.json({info: 'cat updated successfully'});
+                    }
+                });                
+            }else{
+                res.statusCode = 400;
+                res.json({info: 'no matching cat found'});
+            }
+        });
+    });
 
     /* Delete */
-    /*app.delete('/cats/:name', function (req, res){
-        _.remove(_cats, function(cat) {  return cat.name == req.params.name;});
-        res.statusCode = 200;
-        res.json({info: 'cat named ' + req.params.name + ' removed'})
-    });*/
-
+    app.delete('/cats/:name', function (req, res){
+        var query  = Cat.where({ name: req.params.name });
+        query.findOne(function(err, cat){
+            if(err){
+                res.statusCode = 500;
+                res.json({info: 'error trying to find cat to remove', error: err});
+            }
+            if(cat){
+                cat.remove(function (err, cat) {
+                    if(err){
+                        res.statusCode = 500;
+                        res.json({info: 'failed to delete cat', error: err});
+                    }
+                    else{
+                        res.statusCode = 200;
+                        res.json({info: 'cat remove successfully'});
+                    }                    
+                });
+            }
+            else{
+                res.statusCode = 400;
+                res.json({info: 'could not find cat to delete'});
+            }
+        });        
+    });
 };
