@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var Cat = require('./cat_model.js');
+var Cat = require('../models/cat.js');
 
 module.exports = function(app){
 
