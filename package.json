@@ -25,6 +25,7 @@
     "lodash": "~4.15.0",
     "body-parser": "~1.15.2",
     "mongoose": "~4.6.0",
-    "request": "~2.74.0"
+    "request": "~2.74.0",
+    "async": "~2.0.1"
   }
 }
