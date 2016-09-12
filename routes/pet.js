@@ -3,8 +3,11 @@ var r = require('request').defaults({
 });
 
 var async = require('async');
+var redis = require('redis');
+var client = redis.createClient(6379, '127.0.0.1');
 
-module.exports = function(app){
+module.exports = function(app) {
+
     /* Read */
     app.get('/pets', function (req, res) {
 
@@ -23,19 +26,33 @@ module.exports = function(app){
                 });
             },
             dog: function(callback){
-                r({uri: 'http://localhost:3001/dogs'}, function(error, response, body) {
+
+                client.get('http://localhost:3001/dogs', function(error, dog) {
+                    if (error) {throw error;};
+                    if (dog) {
+                        callback(null, JSON.parse(dog));
+                    } else {
+
+                        r({uri: 'http://localhost:3001/dogs'}, function(error, response, body) {
                             if (error) {
                                 callback({service: 'dog', error: error});
                                 return;
                             };
                             if (!error && response.statusCode === 200) {
-                                callback(null, body.data);                                
+                                callback(null, body.data);
+                                // client.set('http://localhost:3001/dogs', JSON.stringify(body.data), function (error) {
+                                client.setex('http://localhost:3001/dogs', 60, JSON.stringify(body.data), function (error) {
+                                    if (error) {throw error;};
+                                });
                             } else {
                                 callback(response.statusCode);
                             }
                         });
 
-                    }          
+                    }
+                });
+
+            }
         },
         function(error, results) {
             res.json({
@@ -43,6 +60,7 @@ module.exports = function(app){
                 results: results
             });
         });
+
     });
 
     app.get('/ping', function (req, res) {

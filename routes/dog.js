@@ -22,9 +22,12 @@ module.exports = function(app){
             if(err){
                 res.statusCode = 404;
                 res.json({info: 'error during finding dogs', error: err});
-            }
-            res.statusCode = 200;
-            res.json({info: 'dogs found successfully', data: dogs});
+            }            
+            //res.json({info: 'dogs found successfully', data: dogs});
+            setTimeout(function(){
+                res.statusCode = 200;
+                res.json({info: 'dogs found successfully', data: dogs});
+            }, 10000);
         });        
     });
 
