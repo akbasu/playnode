@@ -28,3 +28,8 @@ You should see it display the version and connect to a test database.
 This proves successful install!=)
 
 Reference link
+
+============================================
+How to run the app?
+node cat_server.js
+node dog_server.js
